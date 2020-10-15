@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 
-# Copyright (c) 2009, Giampaolo Rodola'. All rights reserved.
-# Use of this source code is governed by a BSD-style license that can be
-# found in the LICENSE file.
+
 
 import socket
 from datetime import datetime
 from socket import AF_INET, SOCK_STREAM, SOCK_DGRAM
 from time import sleep
+import sys
 
 import psutil
 
@@ -23,7 +22,7 @@ proto_map = {
 }
 
 def writeTxt():
-    file = open("log.txt", "a+")
+    file = open("./Data/log.txt", "a+")
     file.write("\nTime:" + str(datetime.now().time()) + "\n")
     return file
 
@@ -33,9 +32,6 @@ def main():
     file = writeTxt()
 
     templ = "%-5s %-30s %-30s %-13s %-6s %s"
-    # print(templ % (
-    #     "Proto", "Local address", "Remote address", "Status", "PID",
-    #     "Program name"))
     file.write(templ % (
         "Proto", "Local address", "Remote address", "Status", "PID",
         "Program name"))
@@ -49,14 +45,6 @@ def main():
         raddr = ""
         if c.raddr:
             raddr = "%s:%s" % (c.raddr)
-        # print(templ % (
-        #     proto_map[(c.family, c.type)],
-        #     laddr,
-        #     raddr or AD,
-        #     c.status,
-        #     c.pid or AD,
-        #     proc_names.get(c.pid, '?')[:15],
-        # ))
         file.write(templ % (
             proto_map[(c.family, c.type)],
             laddr,
@@ -71,8 +59,24 @@ def setTime(time):
     examTime = time
 
 if __name__ == '__main__':
+    # print('Number of arguments: {}'.format(len(sys.argv)))
+    # print('Argument(s) passed: {}'.format(str(sys.argv)))
+    if(len(sys.argv) < 3):
+        raise Exception("Too little arguments parsed")
+    args = sys.argv
+    try:
+        examTime = int(args[1])
+        logInterval = int(args[2])
+    except:
+        print("Wrong input format")
+
+    
+
+    # Reset log file
+    file = open("./Data/log.txt", "w")
+
     counter = 0
-    while counter != 5:
+    while counter != examTime:
         main()
-        sleep(5)
-        counter = counter + 1
+        sleep(logInterval)
+        counter = counter + logInterval

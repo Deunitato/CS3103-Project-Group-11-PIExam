@@ -29,7 +29,7 @@ def loadQuestions():
     return mcqQuestions, writtenQuestions
 
 def saveAnswers(answerList):
-    with open('CLI_Questions/AnswerList.csv', 'w+') as file:
+    with open('./Data/AnswerList.csv', 'w+') as file:
         titles = ["question", "type", "answer"]
         writer = csv.DictWriter(file, fieldnames = titles, dialect='questionDialect')
         for answer in answerList:
@@ -49,11 +49,13 @@ def readMulti():
 def run(mcqDict, writtenDict):
     random.shuffle(mcqDict)
     random.shuffle(writtenDict)
-    print(mcqDict)
+    #print(mcqDict)
     mcqIndex = 1
     writtenIndex = 1
     answers = []
-
+    print("\n=================================================\n")
+    print("                   MCQ Questions                   \n")
+    print("=================================================\n")
     for mcq in mcqDict:
         index = 97
         question = "Q" + str(mcqIndex) + ": " + mcq["question"] + "\n"
@@ -65,8 +67,9 @@ def run(mcqDict, writtenDict):
             index = index + 1
         user_answer = input()
         answers.append({"question" :  mcq["question"] , "type" :  mcq["type"], "answer" : user_answer})
-
-        
+    print("\n=================================================\n")
+    print("                 Written Questions                 \n")
+    print("=================================================\n")
     for written in writtenDict:
         question = "Q" + str(writtenIndex) + ": " + written["question"] + "\n"
         writtenIndex = writtenIndex + 1
