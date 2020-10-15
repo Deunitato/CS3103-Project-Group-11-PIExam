@@ -5,10 +5,13 @@
 # found in the LICENSE file.
 
 import socket
+from datetime import datetime
 from socket import AF_INET, SOCK_STREAM, SOCK_DGRAM
+from time import sleep
 
 import psutil
 
+examTime = 10
 
 AD = "-"
 AF_INET6 = getattr(socket, 'AF_INET6', object())
@@ -20,7 +23,8 @@ proto_map = {
 }
 
 def writeTxt():
-    file = open("log.txt", "w+")
+    file = open("log.txt", "a+")
+    file.write("\nTime:" + str(datetime.now().time()) + "\n")
     return file
 
 
@@ -63,6 +67,12 @@ def main():
         ))
         file.write("\n")
 
+def setTime(time):
+    examTime = time
 
 if __name__ == '__main__':
-    main()
+    counter = 0
+    while counter != 5:
+        main()
+        sleep(5)
+        counter = counter + 1

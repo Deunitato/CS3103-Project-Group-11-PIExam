@@ -1,0 +1,40 @@
+Proto Local address                  Remote address                 Status        PID    Program name
+tcp6  :::46407                       -                              LISTEN        413    node
+tcp6  ::ffff:172.22.185.64:46407     ::ffff:172.22.176.1:63500      ESTABLISHED   413    node
+tcp6  ::ffff:172.22.185.64:46407     ::ffff:172.22.176.1:63501      ESTABLISHED   443    node
+
+Time:17:47:24.100855
+Proto Local address                  Remote address                 Status        PID    Program name
+tcp6  :::46407                       -                              LISTEN        413    node
+tcp6  ::ffff:172.22.185.64:46407     ::ffff:172.22.176.1:63501      ESTABLISHED   443    node
+tcp6  ::ffff:172.22.185.64:46407     ::ffff:172.22.176.1:63500      ESTABLISHED   413    node
+
+Time:17:47:28.964148
+Proto Local address                  Remote address                 Status        PID    Program name
+tcp6  ::ffff:172.22.185.64:46407     ::ffff:172.22.176.1:63501      ESTABLISHED   443    node
+tcp6  :::46407                       -                              LISTEN        413    node
+tcp6  ::ffff:172.22.185.64:46407     ::ffff:172.22.176.1:63500      ESTABLISHED   413    node
+
+Time:17:47:33.991391
+Proto Local address                  Remote address                 Status        PID    Program name
+tcp6  ::ffff:172.22.185.64:46407     ::ffff:172.22.176.1:63501      ESTABLISHED   443    node
+tcp6  :::46407                       -                              LISTEN        413    node
+tcp6  ::ffff:172.22.185.64:46407     ::ffff:172.22.176.1:63500      ESTABLISHED   413    node
+
+Time:17:47:39.061945
+Proto Local address                  Remote address                 Status        PID    Program name
+tcp6  ::ffff:172.22.185.64:46407     ::ffff:172.22.176.1:63501      ESTABLISHED   443    node
+tcp6  :::46407                       -                              LISTEN        413    node
+tcp6  ::ffff:172.22.185.64:46407     ::ffff:172.22.176.1:63500      ESTABLISHED   413    node
+
+Time:17:47:44.125342
+Proto Local address                  Remote address                 Status        PID    Program name
+tcp6  ::ffff:172.22.185.64:46407     ::ffff:172.22.176.1:63501      ESTABLISHED   443    node
+tcp6  :::46407                       -                              LISTEN        413    node
+tcp6  ::ffff:172.22.185.64:46407     ::ffff:172.22.176.1:63500      ESTABLISHED   413    node
+
+Time:17:47:49.195781
+Proto Local address                  Remote address                 Status        PID    Program name
+tcp6  ::ffff:172.22.185.64:46407     ::ffff:172.22.176.1:63501      ESTABLISHED   443    node
+tcp6  :::46407                       -                              LISTEN        413    node
+tcp6  ::ffff:172.22.185.64:46407     ::ffff:172.22.176.1:63500      ESTABLISHED   413    node
