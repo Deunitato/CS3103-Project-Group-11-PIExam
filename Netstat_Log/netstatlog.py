@@ -19,12 +19,24 @@ proto_map = {
     (AF_INET6, SOCK_DGRAM): 'udp6',
 }
 
+def writeTxt():
+    file = open("log.txt", "w+")
+    return file
+
 
 def main():
+
+    file = writeTxt()
+
     templ = "%-5s %-30s %-30s %-13s %-6s %s"
-    print(templ % (
+    # print(templ % (
+    #     "Proto", "Local address", "Remote address", "Status", "PID",
+    #     "Program name"))
+    file.write(templ % (
         "Proto", "Local address", "Remote address", "Status", "PID",
         "Program name"))
+    file.write("\n")
+
     proc_names = {}
     for p in psutil.process_iter(['pid', 'name']):
         proc_names[p.info['pid']] = p.info['name']
@@ -33,7 +45,15 @@ def main():
         raddr = ""
         if c.raddr:
             raddr = "%s:%s" % (c.raddr)
-        print(templ % (
+        # print(templ % (
+        #     proto_map[(c.family, c.type)],
+        #     laddr,
+        #     raddr or AD,
+        #     c.status,
+        #     c.pid or AD,
+        #     proc_names.get(c.pid, '?')[:15],
+        # ))
+        file.write(templ % (
             proto_map[(c.family, c.type)],
             laddr,
             raddr or AD,
@@ -41,6 +61,7 @@ def main():
             c.pid or AD,
             proc_names.get(c.pid, '?')[:15],
         ))
+        file.write("\n")
 
 
 if __name__ == '__main__':
