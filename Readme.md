@@ -7,7 +7,9 @@ This program is meant as a easy E-examination program that project questions in 
 ## Dependencies
 - Python3
 
-
 ## Running
 - Ensure you are in the main folder
 - `sudo ./run.sh`
+
+## Output
+- Output is stored in the Data folder
