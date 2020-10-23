@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 
-
-
+import os
+import sys
 import socket
+import psutil
+import atexit
 from datetime import datetime
 from socket import AF_INET, SOCK_STREAM, SOCK_DGRAM
 from time import sleep
-import sys
-
-import psutil
 
 examTime = 10
+filename = "./data/log.txt"
 
 AD = "-"
 AF_INET6 = getattr(socket, 'AF_INET6', object())
@@ -22,10 +22,9 @@ proto_map = {
 }
 
 def writeTxt():
-    file = open("./Data/log.txt", "a+")
+    file = open(filename, "a+")
     file.write("\nTime:" + str(datetime.now().time()) + "\n")
     return file
-
 
 def main():
 
@@ -58,6 +57,12 @@ def main():
 def setTime(time):
     examTime = time
 
+@atexit.register
+def saveEndTime():
+    print("exit called")
+    file = open(filename, "a+")
+    file.write("\n\n\nTime completed: " + str(datetime.now().time()) + "\n")
+
 if __name__ == '__main__':
     # print('Number of arguments: {}'.format(len(sys.argv)))
     # print('Argument(s) passed: {}'.format(str(sys.argv)))
@@ -70,10 +75,10 @@ if __name__ == '__main__':
     except:
         print("Wrong input format")
 
-    
-
     # Reset log file
-    file = open("./Data/log.txt", "w")
+    filename = "./data/log.txt"
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
+    file = open(filename, "w+")
 
     counter = 0
     while counter != examTime:
