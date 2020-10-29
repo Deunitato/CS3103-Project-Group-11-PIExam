@@ -1,4 +1,4 @@
-Subject: Your subject here
+Subject: Exam Application Results
 
 Dear #name#,
 Attached is the stuff taken from this exam..

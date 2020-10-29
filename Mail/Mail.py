@@ -34,14 +34,16 @@ How do I be better and smarter like my peers.
 
 ----------------------------
 
-Note: Use '#department#' or '#name#' to insert reciever's department code and name
-
 '''
 import sys
 import csv
 import smtplib
 import getpass
 import ssl
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import mimetypes
+import email.mime.application
 from time import sleep
 
 port = 587
@@ -90,7 +92,7 @@ def read_mailing_list(filDepCode):
     Input: (dict) => filtered mailing list 
     Output: (dict) => content of the mail for every reciever
 """
-def read_and_process_mail(mailingList):
+def read_and_process_mail(mailingList, senderID):
     
     with open ('./Mail/Content.txt', 'rt') as myfile:  
         raw_contents = myfile.read()
@@ -105,7 +107,25 @@ def read_and_process_mail(mailingList):
         content = raw_contents
         content = content.replace("#name#", Name)
         content =  header.format(senderID, to)+ content
-        contentDict[index] = content
+        msg = MIMEMultipart()
+        msg['Subject'] = 'Exam'
+        msg['From'] = senderID
+        msg['To'] = to
+        txt = MIMEText(str(content))
+        msg.attach(txt)
+        filename1 = './data/log.txt'
+        filename2 = './data/AnswerList.csv'
+        fo=open(filename1,'rb')
+        fo2=open(filename2,'rb')
+        file1 = email.mime.application.MIMEApplication(fo.read(),_subtype="txt")
+        file2 = email.mime.application.MIMEApplication(fo2.read(),_subtype="csv")
+        file1.add_header('Content-Disposition','attachment',filename=filename1)
+        file2.add_header('Content-Disposition','attachment',filename=filename2)
+        msg.attach(file1)
+        msg.attach(file2)
+        fo.close()
+        fo2.close()
+        contentDict[index] = msg
     return contentDict
         
 
@@ -148,7 +168,7 @@ def send_to(server, Mails, mailingList):
     
         try:
             print("Smart Mailer: Sending your mails(" + str(index) + ") ......" )
-            server.sendmail(senderID, to, Mails[index])
+            server.sendmail(senderID, to, Mails[index].as_string())
         except Exception as e:
             print("\nSmart Mailer: Failed to send letter to " + to)
             print(e)
@@ -166,7 +186,7 @@ def main(EmailID, Name):
     server = connect_to()
 
     #Get mail content
-    mails = read_and_process_mail(mailingList)
+    mails = read_and_process_mail(mailingList, EmailID)
 
     # Send to server
     success = send_to(server, mails, mailingList)
