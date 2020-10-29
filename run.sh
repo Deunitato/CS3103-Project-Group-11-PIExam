@@ -1,4 +1,6 @@
 #!/bin/bash
+cd "$(dirname "$(realpath "$0")")"
+
 if [ -d env ] ; then
     echo "ENV Found.."
     source env/bin/activate

@@ -29,7 +29,7 @@ def loadQuestions():
     return mcqQuestions, writtenQuestions
 
 def saveAnswers(answerList):
-    with open('./Data/AnswerList.csv', 'w+') as file:
+    with open('./data/AnswerList.csv', 'w+') as file:
         titles = ["question", "type", "answer"]
         writer = csv.DictWriter(file, fieldnames = titles, dialect='questionDialect')
         for answer in answerList:
