@@ -1,10 +1,5 @@
 ''' ######### The Smart Mailer program (GMAIL) ########
 
-Name: Charlotte Lim Wee Teng
-ID: A0185403J
-Date: Completed at 3/10/20
-
-
 1) List of recipients
 File name: Sendto.csv
 ID CSV format:
