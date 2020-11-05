@@ -22,6 +22,7 @@ class MrqWidget(QtWidgets.QWidget):
         super(MrqWidget, self).__init__()
         uic.loadUi('ui/mrq.ui', self)
         self.setParent(parent)
+        self.setFrameShape(QtWidg)
 
 class OpenEndedWidget(QtWidgets.QWidget):
     def __init__(self, parent=None):
@@ -34,6 +35,6 @@ if __name__ == '__main__':
     ui = HomeWindow()
     ui.show()
 
-    ui.setQuestionWidget(OpenEndedWidget(ui))
+    ui.setQuestionWidget(McqWidget(ui))
 
     sys.exit(app.exec_())
