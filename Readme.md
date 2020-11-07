@@ -6,6 +6,8 @@ This program is meant as a easy E-examination program that project questions in 
 
 ## Dependencies
 - Python3
+- Allowed virtual env
+- Gmail account with "less secure application" allowed in security
 
 ## Running
 - Ensure you are in the main folder
