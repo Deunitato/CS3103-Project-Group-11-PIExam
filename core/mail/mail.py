@@ -89,7 +89,7 @@ def read_mailing_list(filDepCode):
 """
 def read_and_process_mail(mailingList, senderID):
     
-    with open ('./Mail/Content.txt', 'rt') as myfile:  
+    with open ('./config/Content.txt', 'rt') as myfile:  
         raw_contents = myfile.read()
 
     # Make content for each person
@@ -146,7 +146,7 @@ def connect_to():
     except Exception as err:
         print("\nSmart Mailer: Something went wrong with connection...")
         print(err)
-        exit()
+        return
 
 
 """
@@ -172,26 +172,35 @@ def send_to(server, Mails, mailingList):
 
 
 def main(EmailID, Name):
+    failure = 1
+    while(failure == 1):
+        try: 
+            print("\nSending logs to " + Name + " at " + EmailID)
+            #Read filedata
+            mailingList = { 1 : {"EmailID" : EmailID, "Name" : Name}}
 
-    print("\nSending logs to " + Name + " at " + EmailID)
-    #Read filedata
-    mailingList = { 1 : {"EmailID" : EmailID, "Name" : Name}}
+            # Connect to server
+            server = connect_to()
 
-    # Connect to server
-    server = connect_to()
+            #Get mail content
+            mails = read_and_process_mail(mailingList, EmailID)
 
-    #Get mail content
-    mails = read_and_process_mail(mailingList, EmailID)
-
-    # Send to server
-    success = send_to(server, mails, mailingList)
+            # Send to server
+            success = send_to(server, mails, mailingList)
 
 
-    print("====== End =======")
+            print("====== End =======")
+            failure = 0
+        except Exception as e :
+            print(e.with_traceback)
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
+    if len(sys.argv) < 3:
         print("Too little args! Follow this format: python Mail.py RecieverID RecieverName")
         exit(0)
-    main(sys.argv[1], sys.argv[2])
+    teacher_name = ""
+    for x in range(2, len(sys.argv)):
+        teacher_name = teacher_name + sys.argv[x]
+
+    main(sys.argv[1], teacher_name)
