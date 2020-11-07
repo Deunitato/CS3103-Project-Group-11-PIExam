@@ -189,8 +189,6 @@ def main(EmailID, Name):
         # Send to server
         success = send_to(server, mails, mailingList)
 
-
-        print("====== End =======")
         failure = 0
     except Exception as e :
         print(e.with_traceback)

@@ -57,7 +57,7 @@ def main():
 
     subprocess.run("python3 core/mail/mail.py " + str(config['teacherEmail']) + " " + str(config['teacherName']), shell=True)
 
-    print("DONE")
+    print("====== End =======")
 
 if __name__ == "__main__":
     main()
