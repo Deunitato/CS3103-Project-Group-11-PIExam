@@ -1,6 +1,9 @@
 #!/bin/bash
+
+# Follow symlink to real path before execution
 cd "$(dirname "$(realpath "$0")")"
 
+# Set up environment, and install dependencies
 if [ -d env ] ; then
     echo "ENV Found.."
     source env/bin/activate
@@ -11,4 +14,5 @@ else
     pip3 install -r bin/dependencies.txt
 fi
 
+# Program entry point
 python3 main.py

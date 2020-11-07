@@ -2,15 +2,15 @@
 
 import os
 import sys
+import signal
 import socket
 import psutil
-import atexit
 from datetime import datetime
 from socket import AF_INET, SOCK_STREAM, SOCK_DGRAM
 from time import sleep
+from threading import Event
 
-examTime = 10
-filename = "./data/log.txt"
+filename = "data/log.txt"
 
 AD = "-"
 AF_INET6 = getattr(socket, 'AF_INET6', object())
@@ -21,15 +21,25 @@ proto_map = {
     (AF_INET6, SOCK_DGRAM): 'udp6',
 }
 
-def writeTxt():
+exit = Event()
+
+def resetLogfile():
+    file = open(filename, "w")
+    file.write("=================================================\n")
+    file.write("=                  NETSTAT LOG                  =\n")
+    file.write("=================================================\n")
+    file.write("\nStarted on: " + str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + "\n")
+    file.close()
+
+def cleanupLogfile():
     file = open(filename, "a+")
-    file.write("\nTime:" + str(datetime.now().time()) + "\n")
-    return file
+    file.write("\nCompleted on: " + str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + "\n")
+    file.close()
 
-def main():
-
-    file = writeTxt()
-
+def record(logNumber):
+    file = open(filename, "a+")
+    file.write("\nID: " + str(logNumber) + "\n")
+    file.write("Time: " + str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + "\n")
     templ = "%-5s %-30s %-30s %-13s %-6s %s"
     file.write(templ % (
         "Proto", "Local address", "Remote address", "Status", "PID",
@@ -53,19 +63,25 @@ def main():
             proc_names.get(c.pid, '?')[:15],
         ))
         file.write("\n")
+    file.close()
 
-def setTime(time):
-    examTime = time
+def main():
+    resetLogfile()
+    counter = 0
+    while (counter * logInterval) < examTime and not exit.is_set():
+        record(counter + 1)
+        exit.wait(logInterval)
+        counter = counter + 1
+    cleanupLogfile()
 
-@atexit.register
-def saveEndTime():
-    print("exit called")
-    file = open(filename, "a+")
-    file.write("\n\n\nTime completed: " + str(datetime.now().time()) + "\n")
+def quit(signo, _frame):
+    exit.set()
 
 if __name__ == '__main__':
-    # print('Number of arguments: {}'.format(len(sys.argv)))
-    # print('Argument(s) passed: {}'.format(str(sys.argv)))
+
+    for sig in ('TERM', 'HUP', 'INT'):
+        signal.signal(getattr(signal, 'SIG'+sig), quit)
+
     if(len(sys.argv) < 3):
         raise Exception("Too little arguments parsed")
     args = sys.argv
@@ -75,13 +91,5 @@ if __name__ == '__main__':
     except:
         print("Wrong input format")
 
-    # Reset log file
-    filename = "./data/log.txt"
-    os.makedirs(os.path.dirname(filename), exist_ok=True)
-    file = open(filename, "w+")
+    main()
 
-    counter = 0
-    while counter != examTime:
-        main()
-        sleep(logInterval)
-        counter = counter + logInterval

@@ -173,7 +173,7 @@ def send_to(server, Mails, mailingList):
 
 def main(EmailID, Name):
 
-    print(EmailID + " " + Name)
+    print("\nSending logs to " + Name + " at " + EmailID)
     #Read filedata
     mailingList = { 1 : {"EmailID" : EmailID, "Name" : Name}}
 

@@ -2,18 +2,15 @@ import csv
 import sys
 import random
 
-
-
 csv.register_dialect('questionDialect',
                      delimiter='|',
                      skipinitialspace=True,
                      quoting=csv.QUOTE_ALL)
 
 def loadQuestions():
-    
     mcqQuestions = []
     writtenQuestions = []
-    with open('CLI_Questions/QuestionList.csv', 'r') as file:
+    with open('config/QuestionList.csv', 'r') as file:
         reader = csv.reader(file , dialect='questionDialect')
         for row in reader:
             question = row[0].strip()
@@ -29,7 +26,7 @@ def loadQuestions():
     return mcqQuestions, writtenQuestions
 
 def saveAnswers(answerList):
-    with open('./data/AnswerList.csv', 'w+') as file:
+    with open('data/AnswerList.csv', 'w+') as file:
         titles = ["question", "type", "answer"]
         writer = csv.DictWriter(file, fieldnames = titles, dialect='questionDialect')
         for answer in answerList:
@@ -91,5 +88,4 @@ def main():
 
 
 if __name__ == "__main__":
-    
     main()
