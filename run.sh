@@ -11,7 +11,7 @@ else
     echo "ENV not found.. attempting to install... Please wait.."
     python3 -m venv env
     source env/bin/activate
-    pip3 install -r bin/dependencies.txt
+    pip3 install -r dependencies.txt
 fi
 
 # Program entry point
