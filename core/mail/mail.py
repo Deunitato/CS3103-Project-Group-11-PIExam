@@ -146,7 +146,7 @@ def connect_to():
     except Exception as err:
         print("\nSmart Mailer: Something went wrong with connection...")
         print(err)
-        return
+        return False
 
 
 """
@@ -172,27 +172,28 @@ def send_to(server, Mails, mailingList):
 
 
 def main(EmailID, Name):
-    failure = 1
-    while(failure == 1):
-        try: 
-            print("\nSending logs to " + Name + " at " + EmailID)
-            #Read filedata
-            mailingList = { 1 : {"EmailID" : EmailID, "Name" : Name}}
+    try: 
+        print("\nSending logs to " + Name + " at " + EmailID)
+        #Read filedata
+        mailingList = { 1 : {"EmailID" : EmailID, "Name" : Name}}
 
-            # Connect to server
+        # Connect to server
+        while(True):
             server = connect_to()
+            if(server != False):
+                break
 
-            #Get mail content
-            mails = read_and_process_mail(mailingList, EmailID)
+        #Get mail content
+        mails = read_and_process_mail(mailingList, EmailID)
 
-            # Send to server
-            success = send_to(server, mails, mailingList)
+        # Send to server
+        success = send_to(server, mails, mailingList)
 
 
-            print("====== End =======")
-            failure = 0
-        except Exception as e :
-            print(e.with_traceback)
+        print("====== End =======")
+        failure = 0
+    except Exception as e :
+        print(e.with_traceback)
 
 
 if __name__ == "__main__":
