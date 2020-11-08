@@ -101,11 +101,6 @@ if __name__ == "__main__":
     p = multiprocessing.Process(target=main, name="Main")
     try:
         p.start()
-        p.join(int(sys.argv[1]))
-
-        if p.is_alive():
-            p.terminate()
-            p.join()
 
     except KeyboardInterrupt:
         p.terminate()
