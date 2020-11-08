@@ -6,6 +6,7 @@ import sys
 import random
 import signal
 import multiprocessing
+import os
 
 csv.register_dialect('questionDialect',
                      delimiter='|',
@@ -45,26 +46,16 @@ def loadQuestions():
                 # writtenQuestions.append({"question": question , "type": questionType})
                 writtenQuestions.append(QuestionStruct)
 
-
     return mcqQuestions, writtenQuestions
 
 def saveAnswers(answerList):
+    if not os.path.exists('data'):
+        os.makedirs('data')
     with open('data/AnswerList.csv', 'w+') as file:
         titles = ["question", "type", "answer"]
         writer = csv.DictWriter(file, fieldnames = titles, dialect='questionDialect')
         for answer in answerList:
             writer.writerow(answer)
-
-
-def readMulti():
-    content = ""
-    while True:
-        line = input()
-        if line:
-            content = content + line + "\r\n"
-        else:
-            break
-    return content
 
 def run(mcqDict, writtenDict):
     random.shuffle(mcqDict)
@@ -76,34 +67,22 @@ def run(mcqDict, writtenDict):
     print("\n=================================================\n")
     print("                   MCQ Questions                   \n")
     print("=================================================\n")
-    # for mcq in mcqDict:
-    #     index = 97
-    #     question = "Q" + str(mcqIndex) + ": " + mcq["question"] + "\n"
-    #     mcqIndex = mcqIndex + 1
-    #     print(question)
-    #     for option in mcq["values"]:
-    #         option = chr(index) + ") " + option + "\n" 
-    #         print(option)
-    #         index = index + 1
-    #     user_answer = input()
-    #     answers.append({"question" :  mcq["question"] , "type" :  mcq["type"], "answer" : user_answer})
     mcqAnswer = prompt(mcqDict)
+    for question, answer in mcqAnswer.items():
+        answers.append({"question" :  question , "type" :  "MCQ", "answer" : answer})
+
     print("\n=================================================\n")
     print("                 Written Questions                 \n")
     print("=================================================\n")
     writtenAnswer = prompt(writtenDict)
-    
-    # for written in writtenDict:
-    #     question = "Q" + str(writtenIndex) + ": " + written["question"] + "\n"
-    #     writtenIndex = writtenIndex + 1
-    #     print(question)
-    #     user_answer = readMulti()
-    #     answers.append({"question" :  written["question"] , "type" :  written["type"], "answer" : user_answer})
-    print("\n")
-    print(mcqAnswer)
-    print("\n")
-    print(writtenAnswer)
-    #return answers
+
+    for question, answer in writtenAnswer.items():
+        answers.append({"question" :  question , "type" : "WRITTEN", "answer" : answer.replace(question + "\n",'')})
+    # print("\n")
+    # print(mcqAnswer)
+    # print("\n")
+    #print(writtenAnswer)
+    return answers
 
 
 def main():
@@ -112,7 +91,7 @@ def main():
         sys.stdin = open(0)
         MCQs , Writtens = loadQuestions()
         answer = run(MCQs, Writtens)
-        #saveAnswers(answer)
+        saveAnswers(answer)
 
     except KeyboardInterrupt:
         sys.exit(0)
