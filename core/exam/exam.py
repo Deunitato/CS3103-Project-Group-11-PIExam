@@ -1,6 +1,8 @@
 import csv
 import sys
 import random
+import signal
+import multiprocessing
 
 csv.register_dialect('questionDialect',
                      delimiter='|',
@@ -78,14 +80,28 @@ def run(mcqDict, writtenDict):
 
 
 def main():
-    MCQs , Writtens = loadQuestions()
-    answer = run(MCQs, Writtens)
-    #print(answer)
-    saveAnswers(answer)
+    try:
+        # Open fd for user input
+        sys.stdin = open(0)
+        MCQs , Writtens = loadQuestions()
+        answer = run(MCQs, Writtens)
+        saveAnswers(answer)
 
+    except KeyboardInterrupt:
+        sys.exit(0)
 
-    return "Hello"
+if __name__ == "__main__": 
+    
+    p = multiprocessing.Process(target=main, name="Main")
+    try:
+        p.start()
+        p.join(int(sys.argv[1]))
 
+        if p.is_alive():
+            p.terminate()
+            p.join()
 
-if __name__ == "__main__":
-    main()
+    except KeyboardInterrupt:
+        p.terminate()
+        p.join()
+        sys.exit(0)

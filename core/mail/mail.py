@@ -94,14 +94,12 @@ def read_and_process_mail(mailingList, senderID):
 
     # Make content for each person
     contentDict = {}
-    header =  "From: {}\nTo: {}\n"
     for index, person in mailingList.items():
         
         to = person["EmailID"]
         Name = person["Name"]
         content = raw_contents
         content = content.replace("#name#", Name)
-        content =  header.format(senderID, to)+ content
         msg = MIMEMultipart()
         msg['Subject'] = 'Exam'
         msg['From'] = senderID
@@ -191,7 +189,7 @@ def main(EmailID, Name):
 
         failure = 0
     except Exception as e :
-        print(e.with_traceback)
+        sys.exit(0)
 
 
 if __name__ == "__main__":
@@ -202,4 +200,7 @@ if __name__ == "__main__":
     for x in range(2, len(sys.argv)):
         teacher_name = teacher_name + sys.argv[x]
 
-    main(sys.argv[1], teacher_name)
+    try:
+        main(sys.argv[1], teacher_name)
+    except KeyboardInterrupt:
+        sys.exit(0)
