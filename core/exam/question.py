@@ -24,4 +24,4 @@ questions = [
 ]
 
 answers = prompt(questions)
-print(answers)
+print(answers) #{"": , "" }
