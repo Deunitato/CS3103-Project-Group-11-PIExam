@@ -1,4 +1,4 @@
-# Online E-Examination Program
+# PiExam
 
 This program is meant as a easy E-examination program that project questions in CLI for students as well as logging the ports used during the time. Note that this program meant to be used on a raspberry pi 
 
@@ -27,3 +27,6 @@ Path: `/config`
 ## Output
 - Output is stored in the Data folder
 - Output is emailed to recipient stated in the config folder
+
+## Slides
+<iframe src="https://docs.google.com/presentation/d/1fNwZp0fs-EqhiMIT06_KfDz3FwkolBZQQT0Ur6kgevs/edit?usp=sharing" width="640" height="680"></iframe>
