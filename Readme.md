@@ -29,4 +29,4 @@ Path: `/config`
 - Output is emailed to recipient stated in the config folder
 
 ## Slides
-<iframe src="https://docs.google.com/presentation/d/1fNwZp0fs-EqhiMIT06_KfDz3FwkolBZQQT0Ur6kgevs/edit?usp=sharing" width="640" height="680"></iframe>
+https://docs.google.com/presentation/d/1fNwZp0fs-EqhiMIT06_KfDz3FwkolBZQQT0Ur6kgevs/edit?usp=sharing
